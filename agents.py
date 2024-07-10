@@ -1,9 +1,10 @@
 import os
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import ScrapeWebsiteTool
-from crewai_tools import SerperDevTool
+# from crewai_tools import SerperDevTool
+from tools.search_tools import SearchTools
 
-search_tool = SerperDevTool()
+# search_tool = SerperDevTool()
 browser_tool = ScrapeWebsiteTool()
 from langchain.llms import Ollama
 
@@ -21,7 +22,8 @@ class NewsLetterAgents():
                         "You need to pay attention to the quality of the sources, so never forget to attach the original web page link of your information.",
                 allow_delegation=False,
                 verbose=True,
-                tools=[search_tool]
+                tools=[SearchTools.search_internet,
+                       browser_tool]
             )
 
     def job_market_analyst(self):
@@ -49,7 +51,8 @@ class NewsLetterAgents():
                     "You need to pay attention to the quality of the sources, so never forget to attach the original web page link of your information.",
             allow_delegation=False,
             verbose=True,
-            tools=[search_tool]
+            tools=[SearchTools.search_internet,
+                   browser_tool]
         )
 
     def interest_rate_analyst(self):
